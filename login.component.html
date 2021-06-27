@@ -1,0 +1,77 @@
+<section class="body-sign fixed">
+  <div class="center-sign">
+    <a class="logo float-left">
+      <img src="./../../assets/project-image/vga-logo.png" height="54" alt="VGA logo" />
+    </a>
+    <div class="panel card-sign">
+      <div class="card-title-sign mt-3 text-right">
+        <h2 class="title text-white text-uppercase font-weight-bold m-0"><i class="fas fa-user mr-1"></i> Sign In</h2>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-danger" *ngIf="isError">
+          <p class="m-0 text-center">{{errorMessage}}</p>
+        </div>
+        <form [formGroup]="userSignInForm">
+          <div class="form-group mb-3">
+            <label>Email</label>
+            <div class="input-group">
+              <input formControlName="email" class="form-control form-control-lg" required />
+              <br>
+              <span class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fas fa-user"></i>
+                </span>
+              </span>
+            </div>
+            <div *ngIf="userSignInForm.controls['email'].touched ">
+              <p class="text-danger m-0 mt-1" [hidden]="!userSignInForm.get('email').errors?.required">
+                Email address is required
+              </p>
+              <p class="text-danger m-0 mt-1" [hidden]="!userSignInForm.get('email').errors?.pattern">
+                Kindly enter valid email!
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <div class="clearfix">
+              <label class="float-left">Password</label>
+              <a [routerLink]="['/auth/reset-password']" routerLinkActive="router-link-active" class="float-right">Lost
+                Password?</a>
+            </div>
+            <div class="input-group">
+              <input name="password" formControlName="password" class="form-control form-control-lg" required
+                [type]="passwordHidden ? 'password' : 'text'" />
+              <br>
+              <span class="input-group-append">
+                <span class="input-group-text show-password">
+                  <i style="cursor: pointer" (click)="togglePassword()"
+                    [ngClass]="passwordHidden ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </span>
+              </span>
+            </div>
+            <ng-container *ngIf="userSignInForm.get('password').touched && userSignInForm.get('password').invalid">
+              <div *ngIf="userSignInForm.get('password').errors?.required">
+                <p class="text-danger m-0 mt-1">Please Enter Password!</p>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="checkbox-custom checkbox-default">
+                <input id="RememberMe" name="rememberme" type="checkbox" />
+                <label for="RememberMe">Remember Me</label>
+              </div>
+            </div>
+            <div class="col-sm-4 text-right">
+              <button class="btn btn-info mt-2 text-white font-weight-bold m-0" (click)="signIn()"><i class="fa"
+                  [ngClass]="{'fa-spin fa-spinner': isLoading}"></i>
+                {{button}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
